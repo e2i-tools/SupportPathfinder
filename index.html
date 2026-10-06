@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Support Pathfinder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --ink:#1E1A33; --muted:#5B5570; --line:#DCD5EE; --soft:#F3F0FA; --card:#FFFFFF;
+  --violet:#6436C9; --magenta:#B8338A; --teal:#139C88;
+  --display:"Lexend","Avenir Next",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html{background:#5A2FB8}
+html,body{min-height:100%}
+body{position:relative}
+body{margin:0;font-family:var(--body);color:var(--ink);font-size:16px;line-height:1.5;
+  background:linear-gradient(172deg,#17A68E 0%,#3E93AE 26%,#C35CA6 58%,#7A3FD3 82%,#5A2FB8 100%);min-height:100vh;
+  background-color:#5A2FB8;padding-inline:16px;padding-block:20px 40px}
+body::before{content:"";position:absolute;min-height:100%;inset:0;pointer-events:none;
+  background:repeating-radial-gradient(circle at 105% -5%,rgba(255,255,255,.10) 0 1px,transparent 1.5px 34px),
+             repeating-radial-gradient(circle at -10% 110%,rgba(255,255,255,.07) 0 1px,transparent 1.5px 40px)}
+.app{position:relative;max-width:640px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:16px}
+.top{width:100%;display:grid;grid-template-columns:48px 1fr 48px;align-items:center}
+.home{width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.92);display:grid;place-items:center;cursor:pointer;color:var(--violet)}
+h1{margin:0;text-align:center;font-family:var(--display);font-weight:500;color:#fff;font-size:clamp(28px,6vw,40px);line-height:1.08;text-wrap:balance;text-shadow:0 1px 12px rgba(40,10,80,.25)}
+.pill{background:rgba(255,255,255,.94);color:var(--violet);font-family:var(--display);font-size:12px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:6px 16px;min-height:28px}
+.card{width:100%;background:var(--card);border-radius:24px;box-shadow:0 18px 50px rgba(40,10,80,.28);overflow:hidden}
+.prog{background:var(--soft);padding:12px 22px 14px;display:grid;grid-template-columns:1fr auto;gap:6px 12px;font-family:var(--display);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.bar{grid-column:1/-1;height:8px;border-radius:8px;background:#E6E0F4;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,var(--violet),var(--magenta));transition:width .4s ease}
+.inner{padding:22px 24px 26px;display:flex;flex-direction:column;gap:16px}
+.lead{font-family:var(--display);font-weight:500;font-size:21px;color:var(--violet);text-align:center;margin:0;text-wrap:balance}
+.sub{margin:0;text-align:center;color:var(--muted);font-size:15px}
+
+/* carousel */
+.carousel{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;gap:4px}
+.nav{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;display:grid;place-items:center}
+.persona{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;padding:6px 4px;min-height:290px;justify-content:center}
+.medal{width:132px;height:132px;border-radius:50%;display:grid;place-items:center;color:#fff}
+.persona .letter{font-family:var(--display);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.persona h2{margin:0;font-family:var(--display);font-weight:600;font-size:24px;line-height:1.15}
+.persona p{margin:0;color:var(--muted);max-width:36ch}
+.dots{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.dots button{width:10px;height:10px;border-radius:50%;border:0;padding:0;background:#D6CFEA;cursor:pointer}
+.dots button[aria-current="true"]{background:var(--violet);width:26px;border-radius:6px}
+.cta{border:0;border-radius:999px;min-height:52px;padding:0 28px;font-family:var(--display);font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:#fff;cursor:pointer;
+  background:linear-gradient(90deg,var(--violet),var(--magenta));box-shadow:0 8px 20px rgba(100,54,201,.3)}
+.cta:disabled{background:#E3DEEE;color:#8F88A6;box-shadow:none;cursor:not-allowed}
+.ghost{border:1.5px solid var(--violet);background:#fff;color:var(--violet);border-radius:999px;min-height:52px;padding:0 24px;font-family:var(--display);font-size:14px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* profile */
+.eyebrow{font-family:var(--display);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--violet)}
+.profile-head{display:flex;gap:16px;align-items:center}
+.profile-head .medal{width:84px;height:84px;flex:none}
+.profile-head h2{margin:2px 0 0;font-family:var(--display);font-weight:600;font-size:22px;line-height:1.15}
+.box{background:var(--soft);border-radius:16px;padding:14px 18px}
+.box ul{margin:6px 0 0;padding-left:20px;display:grid;gap:4px;font-size:15px}
+.note{font-size:13.5px;color:var(--muted);display:flex;gap:8px;align-items:flex-start}
+
+/* question */
+.q{background:var(--soft);border-radius:16px;padding:16px 18px;font-weight:700;font-size:17px;line-height:1.35}
+.qhint{font-weight:400;font-size:14px;color:var(--muted);margin-top:4px}
+.opts{display:grid;gap:10px}
+.opt{text-align:left;font:inherit;font-size:16px;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;min-height:52px;cursor:pointer;display:flex;gap:12px;align-items:center}
+.opt .tick{flex:none;width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center}
+.opt[aria-pressed="true"]{border-color:var(--violet);background:#F1ECFC}
+.opt[aria-pressed="true"] .tick{border-color:var(--violet);background:var(--violet)}
+.opt[aria-pressed="true"] .tick::after{content:"";width:8px;height:8px;border-radius:50%;background:#fff}
+
+/* done */
+.done{min-height:340px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;text-align:center}
+.done h2{margin:0;font-family:var(--display);font-weight:600;font-size:26px}
+.bars{display:flex;gap:8px;align-items:flex-end;height:64px}
+.bars i{width:22px;border-radius:8px 8px 4px 4px;background:linear-gradient(180deg,var(--magenta),var(--violet))}
+@media (prefers-reduced-motion:no-preference){
+  .bars i{animation:bob 1.4s ease-in-out infinite}
+  .bars i:nth-child(2){animation-delay:.12s}.bars i:nth-child(3){animation-delay:.24s}.bars i:nth-child(4){animation-delay:.36s}.bars i:nth-child(5){animation-delay:.48s}
+}
+@keyframes bob{50%{transform:scaleY(.6)}}
+.bars i{transform-origin:bottom}
+
+/* result */
+.hero{border-radius:16px;padding:16px 18px;color:#fff;background:linear-gradient(100deg,var(--violet),var(--magenta))}
+.hero small{font-family:var(--display);font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.9}
+.hero b{display:block;font-family:var(--display);font-weight:600;font-size:22px;margin-top:4px;line-height:1.2}
+.sect{display:flex;flex-direction:column;gap:10px}
+.sect h3{margin:0;font-family:var(--display);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--violet);font-weight:500}
+.org{border:1.5px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.org.primary{border-color:var(--violet);background:#FAF8FF}
+.org .name{font-weight:700;font-size:17px;line-height:1.25;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.badge{font-family:var(--display);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:2px 9px;background:var(--violet);color:#fff}
+.badge.alt{background:#E8E2F6;color:var(--violet)}
+.org .why{font-size:15px;color:var(--ink)}
+.org .how{font-size:14px;color:var(--muted)}
+.org .links{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:14px}
+.org .links code{font-family:ui-monospace,Menlo,monospace;font-size:13px;background:var(--soft);border-radius:6px;padding:2px 7px;user-select:all}
+.org a{color:var(--violet);font-weight:700}
+.checks{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.checks li{display:flex;gap:10px;align-items:flex-start;font-size:15px}
+.checks li::before{content:"";flex:none;width:20px;height:20px;margin-top:2px;border-radius:6px;border:2px solid var(--teal)}
+.answers{margin:0;display:grid;grid-template-columns:1fr;gap:2px;font-size:14px}
+.answers dd+dt{margin-top:8px}
+.answers dt{color:var(--muted)}
+.answers dd{margin:0;font-weight:700}
+.toast{font-size:13px;color:var(--teal);text-align:center;min-height:18px}
+.foot{color:rgba(255,255,255,.88);font-size:12.5px;text-align:center;max-width:52ch}
+:focus-visible{outline:3px solid #FFD166;outline-offset:2px}
+@media (max-width:420px){.inner{padding:18px 16px 22px}.row{grid-template-columns:1fr}.medal{width:110px;height:110px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <button class="home" id="home" type="button" aria-label="Back to start">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+    </button>
+    <h1>Support Pathfinder</h1>
+    <span></span>
+  </div>
+  <div class="pill" id="pill">e2i Career Coaching</div>
+  <main class="card" id="card" aria-live="polite"></main>
+  <p class="foot">Nothing you choose here is saved. Your e2i coach will go through the results with you. Organisation details are from public sources, Oct 2026; please confirm before visiting.</p>
+</div>
+
+<script>
+const ICON={
+ nd:'<path d="M10 32c0-7 5-12 11-12s10 6 11 12 5 12 11 12 11-5 11-12-5-12-11-12-10 6-11 12-5 12-11 12-11-5-11-12z"/>',
+ id:'<path d="M14 48h10V36H14zM27 48h10V26H27zM40 48h10V16H40z"/><path d="M12 52h40"/>',
+ mh:'<path d="M32 54V30"/><path d="M32 34c-10 0-16-6-16-16 10 0 16 6 16 16z"/><path d="M32 30c0-9 5-14 14-14 0 9-5 14-14 14z"/>',
+ st:'<circle cx="30" cy="12" r="5"/><path d="M30 18l-4 16 8 8v12"/><path d="M26 34l-6 20"/><path d="M29 22l-9 8M31 22l8 7"/><path d="M44 30v24"/><path d="M39 29h5"/>',
+ vi:'<path d="M6 32s10-16 26-16 26 16 26 16-10 16-26 16S6 32 6 32z"/><circle cx="32" cy="32" r="7"/>',
+ hi:'<path d="M20 26a13 13 0 0 1 26 0c0 9-8 11-9 18-1 6-5 10-10 10s-7-3-7-7"/><path d="M27 27a6 6 0 0 1 12 0c0 4-4 5-5 8"/>',
+ kd:'<path d="M32 8s16 18 16 30a16 16 0 0 1-32 0C16 26 32 8 32 8z"/><path d="M25 40a7 7 0 0 0 7 7"/>',
+ ca:'<path d="M26 12a6 6 0 0 1 12 0c0 7-8 15-14 28l-6 14M38 12c0 7-2 10-6 16"/><path d="M32 34l14 20"/>',
+ ns:'<path d="M10 14h44v28H30l-10 10V42H10z"/><path d="M27 24a5 5 0 1 1 7 4.5c-1.5.8-2 1.7-2 3"/><path d="M32 36v.5"/>'
+};
+const COL={nd:"#6436C9",id:"#1F7FB8",mh:"#139C88",st:"#C2477F",vi:"#3D58C4",hi:"#8A43C9",kd:"#2B8FA8",ca:"#B8338A",ns:"#5B5570"};
+const medal=(id,size)=>`<div class="medal" style="background:${COL[id]}"><svg width="${size}" height="${size}" viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[id]}</svg></div>`;
+
+const ORG={
+ sge:{n:"SG Enable: Job Placement & Job Support",what:"For persons with disabilities, such as autism or vision or hearing loss, whether present from birth or acquired later. Checks your job readiness, then links you to a partner agency for job matching and up to 12 months of on-the-job coaching.",how:"Apply on SupportGoWhere, or email the form to SG Enable. Walk-in: Enabling Village.",email:"employment@sgenable.sg",url:"https://www.enablingguide.sg/im-looking-for-disability-support/training-employment/job-placement-and-job-support"},
+ h2w:{n:"SG Enable: Hospital-to-Work Programme",what:"A case manager helps you return to work after an acquired disability: career re-assessment, rehabilitation, job matching and on-site support.",how:"H2W application form. For SC/PR aged 16 and above who are medically fit for work.",email:"employment@sgenable.sg",url:"https://www.enablingguide.sg/im-looking-for-disability-support/training-employment/hospital-to-work-(h2w)-programme"},
+ arc:{n:"Autism Resource Centre (Singapore): E2C",what:"Its Employability and Employment Centre runs a five-stage pathway for autistic adults: assessment, 10 to 40 weeks of training, job matching, then coaching at work.",how:"Fill in the E2C client request form online, or go through SG Enable. A parent or guardian attends the first meeting. E2C is at Enabling Village.",phone:"6592 0426",url:"https://www.autism.org.sg/core-services/e2c"},
+ trampolene:{n:"Trampolene",what:"Career readiness for neurodivergent young adults (ADHD, autism, dyslexia and others) with a diploma or degree: social skills, school-to-work exploration, mentoring by working professionals and life skills.",how:"For Singapore Citizens and PRs aged 17 and above. Book a free 30 to 60 minute work-readiness assessment on its website, or WhatsApp.",phone:"8044 0260 (WhatsApp only)",url:"https://trampolene.org/for-pwds/"},
+ inclus:{n:"Inclus",what:"A social enterprise that trains and places persons with disabilities in jobs with partner employers, with support after placement.",how:"Contact Inclus through its website. Office at Enabling Village, by appointment.",url:"https://inclus.sg"},
+ minds:{n:"MINDS",what:"Job placement and job support for adults with intellectual disability, from open employment to more supported settings.",how:"Through SG Enable, or MINDS directly.",url:"https://www.minds.org.sg"},
+ apsn:{n:"APSN",what:"Job placement and job support for adults with mild intellectual disability who can work with some guidance.",how:"Through SG Enable, or APSN directly.",url:"https://www.apsn.org.sg"},
+ able:{n:"ABLE Return-to-Work",what:"Vocational rehabilitation for adults aged 18 to 68 with an acquired physical disability, such as after a stroke: therapy, work conditioning, career coaching, job placement and liaison with your employer.",how:"Download ABLE's registration form and email it in, or go through Hospital-to-Work.",email:"enquiries@able-sg.org",phone:"6801 7460",url:"https://able-sg.org/our-services/return-to-work/"},
+ s3:{n:"Stroke Support Station (S3)",what:"Community stroke rehabilitation with physiotherapy, speech therapy and occupational therapy that works on your goal of returning to work. Five centres, including Enabling Village, Jurong Point and AMK Hub.",how:"Call, WhatsApp or email S3 to arrange an assessment.",email:"info@s3.org.sg",phone:"6473 3500",url:"https://s3.org.sg/our-services/rehabilitation/"},
+ clubheal:{n:"Club HEAL Back-To-Work Programme",what:"About four months: 12 weeks of classes on workplace communication, problem-solving and resumes, on-site work training, job placement, then up to six months of coaching after you start work.",how:"Register with Club HEAL first; appointments are needed. Office in Bukit Batok.",email:"info@clubheal.org.sg",phone:"6899 3463",url:"https://www.clubheal.org.sg/back-to-work-programme"},
+ spd:{n:"SPD",what:"Employment support, job placement and rehabilitation for persons with physical disability.",how:"Through SG Enable, or SPD directly.",url:"https://www.spd.org.sg"},
+ nuh:{n:"NUH Return To Work Clinic",what:"A hospital team that helps stroke survivors with the thinking, emotional and workplace challenges of going back to work.",how:"Ask your NUH doctor or therapist for a referral.",url:"https://nuhsplus.edu.sg/article/how-nuh-helps-stroke-survivors-return-to-work"},
+ rehab:{n:"Your hospital rehabilitation team",what:"Hospitals run return-to-work support for stroke and injury patients. Your therapist can assess your work readiness and refer you onward.",how:"Ask your doctor or occupational therapist about return-to-work support."},
+ imh:{n:"IMH Job Club",what:"Vocational support and job placement for IMH patients, linked to your treatment team.",how:"Ask your IMH psychiatrist or case manager to refer you. OcTAVE, 10 Buangkok View.",url:"https://www.imh.com.sg/Locate-Us/OcTAVE-Outpatient-Rehabilitation-Centre/Pages/Job-Club.aspx"},
+ sacs:{n:"SACS Integrated Employment Services",what:"Work skills training, internships, job matching and placement for adults with a mental health condition.",how:"Contact SACS directly. A fit-for-work memo is usually requested.",url:"https://www.sacs.org.sg"},
+ samh:{n:"SAMH MINDSET Learning Hub",what:"Workplace skills training and employment support for people in mental health recovery.",how:"Contact SAMH directly.",url:"https://www.samhealth.org.sg"},
+ savh:{n:"SAVH Skills Development Programme",what:"Skills training and job placement, plus orientation and mobility training so you can travel safely to and around work.",how:"Contact SAVH's placement officers.",phone:"6251 4331 ext 501 / 502",email:"enquiries@savh.org.sg",url:"https://savh.org.sg/employ-our-clients/"},
+ sadeaf:{n:"SADeaf Employment Support",what:"Job matching and support on the job, with a network of Deaf Friendly Employers. Interpreting and notetaking services available.",how:"Register as a SADeaf client (free; a recent audiogram is needed), then ask for employment support.",email:"cs_enquiry@sadeaf.org.sg",url:"https://sadeaf.org.sg/service/cs/"},
+ nkf:{n:"NKF Patient Employment Rehabilitation Programme",what:"Matches dialysis patients with jobs that fit around a three-times-a-week dialysis schedule.",how:"Speak to the social worker at your NKF dialysis centre.",url:"https://nkfs.org"},
+ dial:{n:"Your dialysis centre's social worker",what:"In 2026, DaVita, Diaverum, Kidney Dialysis Foundation, SATA CommHealth and Tzu Chi joined NKF on a shared platform to help dialysis patients find work.",how:"Ask your dialysis centre who handles employment support."},
+ scs:{n:"Singapore Cancer Society Return-to-Work",what:"One-to-one vocational coaching and counselling, rehabilitation, and help planning conversations with employers.",how:"Contact the SCS Cancer Rehabilitation Centre directly.",url:"https://www.singaporecancersociety.org.sg/stories/437-easing-back-into-the-routine.html"},
+ tse:{n:"The Social Equity (goodJobs)",what:"Inclusive hiring fairs and a jobs platform for jobseekers who face barriers to work.",how:"Register on goodJobs and look out for upcoming job fairs."},
+ portal:{n:"SG Enable Inclusive Jobs Portal",what:"Job vacancies from employers committed to hiring persons with disabilities.",how:"Apply directly on the portal.",url:"https://www.sgenable.sg/your-first-stop/hiring-employment"},
+};
+
+const PROFILES=[
+ {id:"nd",name:"Neurodivergent",line:"E.g. autism, ADHD, dyslexia or Tourette syndrome",ex:["Autism","ADHD (attention deficit hyperactivity disorder)","Dyslexia (difficulty with reading and spelling)","Tourette syndrome"],ch:["Finds interviews or unclear instructions stressful","Works best with structure, routine and clear expectations","Unsure whether or how to tell an employer"],
+  q3:{q:"Which describes you best?",o:[["autism","I have an autism diagnosis"],["other","ADHD, dyslexia or another neurodivergent condition"],["none","I have not been formally assessed"]]}},
+ {id:"mh",name:"Mental health condition",line:"Managing or recovering from depression, anxiety, bipolar disorder, schizophrenia or similar",ch:["Gaps in work history during treatment","Worried about stress or relapse at work","Unsure whether to disclose the condition"],
+  q3:{q:"Who supports you with your mental health now?",o:[["imh","Institute of Mental Health (IMH)"],["hosp","Another hospital, polyclinic or private doctor"],["comm","A community agency or counsellor"],["none","No one at the moment"]]}},
+ {id:"st",name:"Stroke or physical disability",line:"After a stroke, accident, injury or illness that changed how I move or work",ch:["Can no longer do the same job as before","Tires quickly, or has memory or concentration changes","Needs a workplace that can adjust tasks or access"],
+  q3:{q:"Are you still seeing a hospital rehabilitation team?",o:[["yes","Yes"],["no","No, I have finished rehabilitation"]]}},
+ {id:"vi",name:"Vision loss",line:"Low vision or blind, from birth or later in life",ch:["Needs assistive technology to use a computer","Needs to learn a safe route to a new workplace","Employers unsure what you can do"],
+  q3:{q:"Do you use assistive devices or mobility aids?",o:[["yes","Yes, I use them already"],["learn","I would like to learn"],["no","No, I don't need them"]]}},
+ {id:"hi",name:"Deaf or hard of hearing",line:"Hearing loss, including DeafBlind",ch:["Communication in interviews and meetings","Phone-based tasks are difficult","Wants an employer who understands Deaf culture"],
+  q3:{q:"How do you prefer to communicate?",o:[["sign","Sign language"],["speech","Speech, with hearing aids or an implant"],["both","Both"]]}},
+ {id:"kd",name:"On dialysis",line:"Kidney failure, on haemodialysis or peritoneal dialysis",ch:["Dialysis takes three half-days a week","Gets tired after sessions","Needs a flexible or part-time role"],
+  q3:{q:"Where do you receive dialysis?",o:[["nkf","At an NKF centre"],["other","At another centre (DaVita, Diaverum, KDF, SATA, Tzu Chi)"],["home","At home (peritoneal dialysis)"],["unsure","I'm not sure"]]}},
+ {id:"ca",name:"Cancer survivor",line:"Going through or recovering from cancer treatment",ch:["Fatigue or side effects from treatment","Anxious about going back to work","Unsure how to explain the gap to employers"],
+  q3:{q:"Where are you in your treatment?",o:[["active","Still in treatment"],["recent","Finished treatment in the last two years"],["past","Finished more than two years ago"]]}},
+ {id:"ns",name:"Something else",line:"Another condition, or I prefer not to say",ch:["Has a health need that affects work","Not sure which support fits","Wants to talk it through with a coach first"],q3:null}
+];
+const DISABILITY=["nd","id","st","vi","hi"];
+
+const COMMON={
+ doc:{q:"Do you have a fit-for-work memo from your doctor?",hint:"Most specialist programmes ask for one before you start.",o:[["yes","Yes, I have one"],["old","Yes, but it is more than a year old"],["no","No, I don't have one"]]},
+ ready:{q:"How ready do you feel to start work?",o:[["now","Ready to apply for jobs now"],["prep","I need some training or coaching first"],["recover","I'm still recovering and need more time"]]},
+ need:{q:"What would help you most right now?",o:[["match","Finding a suitable job"],["coach","Someone to support me at work"],["skills","Learning new skills"],["talk","Help explaining my condition to employers"],["flex","Flexible hours around treatment"]]}
+};
+
+let S={screen:"pick",idx:0,profile:null,step:0,ans:{}};
+const card=document.getElementById("card"),pill=document.getElementById("pill");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const P=()=>PROFILES.find(p=>p.id===S.profile);
+function questions(){const p=P();const qs=[{k:"doc",...COMMON.doc}];if(p.q3)qs.push({k:"q3",...p.q3});qs.push({k:"ready",...COMMON.ready},{k:"need",...COMMON.need});return qs}
+const progHTML=(pct,label)=>`<div class="prog"><span>${label}</span><span>${pct}%</span><div class="bar"><i style="width:${pct}%"></i></div></div>`;
+
+function render(){
+ pill.textContent=S.profile?P().name:"e2i Career Coaching";
+ if(S.screen==="pick")return pick();
+ if(S.screen==="profile")return profile();
+ if(S.screen==="q")return question();
+ if(S.screen==="done")return done();
+ if(S.screen==="result")return result();
+}
+function pick(){
+ const p=PROFILES[S.idx];
+ card.innerHTML=`${progHTML(5,"Step")}<div class="inner">
+  <p class="lead">Select the profile that best reflects you.</p>
+  <p class="sub">Swipe or use the arrows to see all ${PROFILES.length} profiles.</p>
+  <div class="carousel" id="car">
+   <button class="nav" id="prev" type="button" aria-label="Previous profile"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+   <div class="persona">${medal(p.id,72)}<div class="letter">Profile ${S.idx+1} of ${PROFILES.length}</div><h2>${esc(p.name)}</h2><p>${esc(p.line)}</p></div>
+   <button class="nav" id="next" type="button" aria-label="Next profile"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+  <div class="dots">${PROFILES.map((x,i)=>`<button type="button" aria-label="${esc(x.name)}" aria-current="${i===S.idx}"></button>`).join("")}</div>
+  <button class="cta" id="go" type="button">This is me</button>
+ </div>`;
+ const move=d=>{S.idx=(S.idx+d+PROFILES.length)%PROFILES.length;render()};
+ prev.onclick=()=>move(-1);next.onclick=()=>move(1);
+ card.querySelectorAll(".dots button").forEach((b,i)=>b.onclick=()=>{S.idx=i;render()});
+ go.onclick=()=>{S.profile=p.id;S.screen="profile";render()};
+ let x0=null;const car=document.getElementById("car");
+ car.addEventListener("touchstart",e=>x0=e.touches[0].clientX,{passive:true});
+ car.addEventListener("touchend",e=>{if(x0==null)return;const dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40)move(dx<0?1:-1);x0=null});
+}
+function profile(){
+ const p=P();
+ card.innerHTML=`${progHTML(15,"Step")}<div class="inner">
+  <div class="profile-head">${medal(p.id,46)}<div><div class="eyebrow">Your profile</div><h2>${esc(p.name)}</h2><div style="color:var(--muted);font-size:15px">${esc(p.line)}</div></div></div>
+  ${p.ex?`<div class="box"><div class="eyebrow">Examples</div><ul>${p.ex.map(c=>`<li>${esc(c)}</li>`).join("")}</ul></div>`:""}
+  <div class="box"><div class="eyebrow">Common challenges</div><ul>${p.ch.map(c=>`<li>${esc(c)}</li>`).join("")}</ul></div>
+  <div class="note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex:none;margin-top:2px"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Next, ${questions().length} short questions. There are no right or wrong answers, and nothing is saved.</span></div>
+  <div class="row"><button class="ghost" id="back" type="button">Back</button><button class="cta" id="go" type="button">Begin questions</button></div>
+ </div>`;
+ back.onclick=()=>{S.profile=null;S.screen="pick";render()};
+ go.onclick=()=>{S.step=0;S.screen="q";render()};
+}
+function question(){
+ const qs=questions(),q=qs[S.step],sel=S.ans[q.k];
+ const pct=Math.round(20+(S.step/qs.length)*75);
+ card.innerHTML=`${progHTML(pct,"Step")}<div class="inner">
+  <div class="eyebrow">Question ${S.step+1}/${qs.length}</div>
+  <div class="q">${esc(q.q)}${q.hint?`<div class="qhint">${esc(q.hint)}</div>`:""}</div>
+  <div class="opts" role="group" aria-label="${esc(q.q)}">${q.o.map(([v,t])=>`<button type="button" class="opt" data-v="${v}" aria-pressed="${sel===v}"><span class="tick"></span>${esc(t)}</button>`).join("")}</div>
+  <div class="row"><button class="ghost" id="back" type="button">Back</button><button class="cta" id="go" type="button" ${sel?"":"disabled"}>${S.step===qs.length-1?"Finish":"Next"}</button></div>
+ </div>`;
+ card.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{S.ans[q.k]=b.dataset.v;render()});
+ back.onclick=()=>{if(S.step===0)S.screen="profile";else S.step--;render()};
+ go.onclick=()=>{if(S.step<qs.length-1)S.step++;else S.screen="done";render()};
+}
+function done(){
+ card.innerHTML=`<div class="inner done"><h2>Completed!</h2><div class="bars" aria-hidden="true"><i style="height:44px"></i><i style="height:58px"></i><i style="height:30px"></i><i style="height:64px"></i><i style="height:48px"></i></div><button class="cta" id="go" type="button">View my support pathway</button></div>`;
+ go.onclick=()=>{S.screen="result";render();window.scrollTo({top:0})};
+}
+function recommend(){
+ const p=S.profile,a=S.ans,list=[],steps=[];let tagline="";
+ const add=(k,primary,why)=>list.push({k,primary,why});
+ if(p==="nd"){tagline="Structured · Coached · Clear expectations";
+  if(a.q3==="autism"){add("sge",1,"Your starting point. One application connects you to an autism employment specialist.");add("arc",1,"Specialists in autism employment who can coach you at work and brief your employer.");add("trampolene",0,"If you have a diploma or degree, Trampolene builds career readiness with mentors from working professionals.");add("inclus",0,"Trains and places persons with disabilities with partner employers.")}
+  else if(a.q3==="other"){add("trampolene",1,"Works with neurodivergent adults with ADHD, dyslexia and similar conditions who have a diploma or degree.");add("tse",0,"Inclusive employers and job fairs, open to people who think and learn differently.");add("sge",0,"SG Enable's adult services list autism but not ADHD or dyslexia on their own. You can still contact them to ask whether they can help.")}
+  else{add("trampolene",1,"Its free work-readiness assessment is a good first step, and it serves several neurodivergent conditions.");add("tse",0,"Inclusive employers and job fairs you can use while you wait for an assessment.");add("arc",0,"If an autism diagnosis is confirmed later, ARC can support you.");steps.push("Ask a doctor or psychologist about a formal assessment. A diagnosis opens up specialist support.")}
+ }
+ if(p==="id"){tagline="Guided · Step by step · Supported at work";add("sge",1,"Your starting point. SG Enable assesses your needs and assigns the right agency.");
+  if(a.q3==="light")add("apsn",1,"Best fit if you can work mostly on your own with some guidance.");else if(a.q3==="close")add("minds",1,"Best fit if you need closer guidance and support at work.");else{add("minds",0,"Supports a wide range of needs.");add("apsn",0,"Supports adults with mild intellectual disability.")}}
+ if(p==="mh"){tagline="Recovery-focused · Paced · Supported";
+  if(a.q3==="imh"){add("imh",1,"You are already an IMH patient, so Job Club can work with your treatment team.");add("sacs",0,"Another option for training and job placement.");add("clubheal",0,"A structured four-month programme with classes, work training and placement.")}
+  else{add("sacs",1,"Training, internships and job placement for adults with a mental health condition.");add("samh",1,"Builds work skills and confidence during recovery.");add("clubheal",1,"A structured four-month programme with classes, on-site work training, placement and six months of follow-up.")}
+  if(a.q3==="none")steps.push("Consider seeing a doctor or counsellor first. Most programmes ask for a fit-for-work memo.");}
+ if(p==="st"){tagline="Rehabilitation · Re-assessment · Return to work";add("h2w",1,"Made for people returning to work after a stroke, accident or illness. A case manager guides you.");add("able",1,"Vocational rehabilitation to rebuild your physical, thinking and emotional readiness for work.");
+  if(a.q3==="yes")steps.push("Ask your therapist about return-to-work support. Your rehab team knows your abilities best and can refer you onward.");add("s3",a.q3==="no"&&a.ready!=="recover"?0:1,"For stroke survivors. Community rehab whose occupational therapists work on getting you back to work.");add("spd",0,"Employment support and job placement for physical disability.");add("inclus",0,"Trains and places persons with disabilities with partner employers.")}
+ if(p==="vi"){tagline="Assistive tech · Mobility training · Placement";add("savh",1,"Specialists in vision loss. They train you to travel to work safely and match you to jobs.");add("sge",0,"Another route to job placement and on-the-job support.");add("inclus",0,"Trains and places persons with disabilities with partner employers.");if(a.q3==="learn")steps.push("Ask SAVH about its Vision Rehabilitation and Assistive Device services.")}
+ if(p==="hi"){tagline="Deaf-friendly · Communication access · Placement";add("sadeaf",1,"Specialists in employment for Deaf and hard of hearing people, with a Deaf Friendly Employer network.");add("sge",0,"Another route to job placement and on-the-job support.");add("inclus",0,"Trains and places persons with disabilities with partner employers.");if(a.q3!=="speech")steps.push("Ask SADeaf about a sign language interpreter for interviews.")}
+ if(p==="kd"){tagline="Flexible hours · Paced · Patient-centred";
+  if(a.q3==="nkf")add("nkf",1,"Matches NKF patients with jobs that fit around dialysis.");else add("dial",1,"Your centre can link you to employment support for dialysis patients.");
+  if(a.q3!=="nkf")add("nkf",0,"NKF leads the dialysis employment effort and may advise even if you dialyse elsewhere.");}
+ if(p==="ca"){tagline="Confidence · Pacing · Employer conversations";add("scs",1,"Coaching, counselling and rehabilitation for cancer survivors returning to work.");if(a.q3==="past")add("tse",0,"If you feel well and are ready to apply, these employers hire inclusively.")}
+ if(p==="ns"){tagline="Talk it through · Find the right fit";add("tse",1,"Inclusive employers and job fairs for jobseekers with health needs.");add("sge",0,"If your condition has left you with a disability, SG Enable may be able to help.")}
+
+ const has=k=>list.some(x=>x.k===k);
+ if(a.ready==="now"&&!has(DISABILITY.includes(p)?"portal":"tse"))add(DISABILITY.includes(p)?"portal":"tse",0,"You're ready to apply. These employers hire inclusively.");
+ if(a.ready==="now"&&DISABILITY.includes(p)&&!has("tse"))add("tse",0,"Inclusive job fairs and a jobs platform.");
+
+ if(a.doc==="no")steps.push(DISABILITY.includes(p)?"Get your disability verified: check SupportGoWhere with Singpass, or ask your doctor to fill in a Disability Verification Form. Ask for a fit-for-work memo at the same visit.":"Ask your doctor for a fit-for-work memo.");
+ if(a.doc==="old")steps.push("Ask your doctor for an updated fit-for-work memo. Some programmes need one from the past year.");
+ if(a.ready==="recover")steps.push("When you feel ready, ask your doctor for a fit-for-work memo. Most programmes need one before starting.");
+ const needTxt={match:"job matching",coach:"a job coach who supports you at work",skills:"skills training",talk:"help explaining your condition to employers",flex:"roles with flexible hours"}[a.need];
+ steps.push(`When you contact them, say you are looking for ${needTxt}.`);
+ return{list,steps,tagline};
+}
+function orgHTML({k,primary,why}){
+ const o=ORG[k];
+ return `<div class="org${primary?" primary":""}"><div class="name">${esc(o.n)}<span class="badge${primary?"":" alt"}">${primary?"Recommended":"Also consider"}</span></div>
+ <div class="why">${esc(why)}</div><div class="how">${esc(o.what)} ${esc(o.how)}</div>
+ ${(o.email||o.phone||o.url)?`<div class="links">${o.email?`<code>${esc(o.email)}</code>`:""}${o.phone?`<code>${esc(o.phone)}</code>`:""}${o.url?`<a href="${o.url}" target="_blank" rel="noopener">Visit website ↗</a>`:""}</div>`:""}</div>`;
+}
+function result(){
+ const p=P(),r=recommend(),qs=questions();
+ const prim=r.list.filter(x=>x.primary),alt=r.list.filter(x=>!x.primary);
+ const ansRows=qs.map(q=>[q.q,(q.o.find(o=>o[0]===S.ans[q.k])||[,""])[1]]);
+ card.innerHTML=`${progHTML(100,"Your pathway")}<div class="inner">
+  <div><div class="eyebrow">Support recommendation</div><div style="color:var(--muted);font-size:15px">Based on your answers</div></div>
+  <div class="hero"><small>${esc(r.tagline)}</small><b>${esc(p.name)}: your support pathway</b></div>
+  <div class="sect"><h3>Suggested organisations</h3>${prim.map(orgHTML).join("")}${alt.map(orgHTML).join("")}</div>
+  <div class="sect"><h3>Before you go</h3><ul class="checks">${r.steps.map(s=>`<li>${esc(s)}</li>`).join("")}</ul></div>
+  <div class="sect box"><h3>Your answers</h3><dl class="answers"><dt>Profile</dt><dd>${esc(p.name)}</dd>${ansRows.map(([q,a])=>`<dt>${esc(q)}</dt><dd>${esc(a)}</dd>`).join("")}</dl></div>
+  <div class="row"><button class="ghost" id="back" type="button">Back</button><button class="cta" id="restart" type="button">Return to start</button></div>
+  <button class="ghost" id="copy" type="button" style="width:100%">Copy for my coach</button>
+  <div class="toast" id="toast"></div>
+ </div>`;
+ const text=`Support Pathfinder summary\nProfile: ${p.name}\n`+ansRows.map(([q,a])=>`- ${q} ${a}`).join("\n")+`\n\nSuggested organisations:\n`+r.list.map(x=>`- ${ORG[x.k].n}${x.primary?" (recommended)":""}`).join("\n")+`\n\nNext steps:\n`+r.steps.map(s=>`- ${s}`).join("\n");
+ copy.onclick=()=>{const t=document.getElementById("toast");
+  const fallback=()=>{t.textContent="Copy isn't available here. Show this screen to your coach instead."};
+  try{navigator.clipboard.writeText(text).then(()=>t.textContent="Copied. Paste it into a message to your coach.",fallback)}catch(e){fallback()}};
+ restart.onclick=reset;
+ back.onclick=()=>{S.screen="q";S.step=questions().length-1;render();window.scrollTo({top:0})};
+}
+function reset(){S={screen:"pick",idx:0,profile:null,step:0,ans:{}};render();window.scrollTo({top:0})}
+document.getElementById("home").onclick=reset;
+render();
+</script>
+</body>
+</html>
